@@ -8,6 +8,7 @@ AI는 센서로 세계를 인식하고 인식 정보를 기억합니다. 인식 
 - 조건 판단(Condition)
 - 의미단위의 값 할당 또는 변경(Assignment)
 - 동작 수행(Action)
+
 따라서 Node의 하위 클래스로 `RecognizationNode`, `ConditionNode`, `AssignmentNode`, `ActionNode`가 존재합니다. 세부 노드는 모두 차상위 Node로부터 파생됩니다.
 
 ## 지형 탐지 예시
