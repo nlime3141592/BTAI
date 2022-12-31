@@ -1,0 +1,10 @@
+C:\Programming\CSharp\BTAI\bin\Debug\netstandard2.0\BTAI.deps.json
+C:\Programming\CSharp\BTAI\bin\Debug\netstandard2.0\BTAI.dll
+C:\Programming\CSharp\BTAI\bin\Debug\netstandard2.0\BTAI.pdb
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.csproj.AssemblyReference.cache
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.AssemblyInfoInputs.cache
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.AssemblyInfo.cs
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.csproj.CoreCompileInputs.cache
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.dll
+C:\Programming\CSharp\BTAI\obj\Debug\netstandard2.0\BTAI.pdb
