@@ -2,35 +2,32 @@ namespace UnchordMetroidvania
 {
     public class SequenceNodeBT<T> : CompositeNodeBT<T>
     {
-        internal SequenceNodeBT(T data, int id, string name, int initCapacity)
-        : base(data, id, name, initCapacity)
+        internal SequenceNodeBT(ConfigurationBT<T> config, int id, string name, int initCapacity)
+        : base(config, id, name, initCapacity)
         {
 
         }
 
         public override InvokeResult Invoke()
         {
-            if(!base.bCheckContinuous())
-                ResetNode();
-
             for(int i = childIndex; i < children.Length; ++i)
             {
                 InvokeResult iResult = children[i].Invoke();
 
-                if(iResult == InvokeResult.RUNNING)
+                if(iResult == InvokeResult.Running)
                 {
                     childIndex = i;
-                    return iResult;
+                    return InvokeResult.Running;
                 }
-                else if(iResult == InvokeResult.FAIL)
+                else if(iResult == InvokeResult.Failure)
                 {
                     ResetNode();
-                    return iResult;
+                    return InvokeResult.Failure;
                 }
             }
 
             ResetNode();
-            return InvokeResult.SUCCESS;
+            return InvokeResult.Success;
         }
     }
 }

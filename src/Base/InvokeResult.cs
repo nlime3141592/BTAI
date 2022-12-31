@@ -2,8 +2,8 @@ namespace UnchordMetroidvania
 {
     public enum InvokeResult
     {
-        RUNNING = -1,
-        FAIL = 0,
-        SUCCESS = 1
+        Running = -1,
+        Failure = 0,
+        Success = 1
     }
 }

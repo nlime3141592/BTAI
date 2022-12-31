@@ -1,38 +1,38 @@
+using System;
+
 namespace UnchordMetroidvania
 {
     public class IfElseNodeBT<T> : ControlNodeBT<T>
     {
-        internal IfElseNodeBT(T data, int id, string name, int initCapacity)
-        : base(data, id, name, initCapacity)
+        internal IfElseNodeBT(ConfigurationBT<T> config, int id, string name, int initCapacity)
+        : base(config, id, name, initCapacity)
         {
-
+            if(initCapacity != 2 && initCapacity != 3)
+                throw new ArgumentException("Invalid capacity.");
         }
 
         public override InvokeResult Invoke()
         {
-            if(children.Length != 2 && children.Length != 3)
-                return InvokeResult.FAIL;
-            else if(!base.bCheckContinuous())
-                ResetNode();
-
-            InvokeResult iResult = InvokeResult.FAIL;
+            InvokeResult iResult = InvokeResult.Failure;
 
             if(childIndex == 0)
             {
                 iResult = children[0].Invoke();
 
-                if(iResult == InvokeResult.RUNNING)
+                if(iResult == InvokeResult.Running)
                     return iResult;
-                else
-                    childIndex = 2 - (int)iResult;
+                else if(iResult == InvokeResult.Success)
+                    childIndex = 1;
+                else if(iResult == InvokeResult.Failure)
+                    childIndex = 2;
             }
 
-            iResult = InvokeResult.FAIL;
+            iResult = InvokeResult.Failure;
 
-            if(childIndex > 0 && childIndex < children.Length && children[childIndex] != null)
+            if(childIndex > 0 && childIndex < children.Length)
                 iResult = children[childIndex].Invoke();
 
-            if(iResult != InvokeResult.RUNNING)
+            if(iResult != InvokeResult.Running)
                 ResetNode();
 
             return iResult;

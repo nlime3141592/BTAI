@@ -4,8 +4,8 @@ namespace UnchordMetroidvania
     {
         protected NodeBT<T> child { get; private set; }
 
-        protected DecoratorNodeBT(T data, int id, string name)
-        : base(data, id, name)
+        protected DecoratorNodeBT(ConfigurationBT<T> config, int id, string name)
+        : base(config, id, name)
         {
 
         }
@@ -20,6 +20,13 @@ namespace UnchordMetroidvania
         public NodeBT<T> Dealloc()
         {
             return Alloc(null);
+        }
+
+        public override void ResetNode()
+        {
+            base.ResetNode();
+
+            child.ResetNode();
         }
     }
 }

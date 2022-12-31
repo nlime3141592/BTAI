@@ -2,41 +2,39 @@ namespace UnchordMetroidvania
 {
     public class WaitNodeBT<T> : TaskNodeBT<T>
     {
-        public int maxFrame { get; private set; }
-        private int m_executedFrame;
+        public int waitFrame { get; private set; }
+        private int m_waitedFrame;
 
-        internal WaitNodeBT(T data, int id, string name, int frameCount)
-        : base(data, id, name)
+        internal WaitNodeBT(ConfigurationBT<T> config, int id, string name, int waitFrame)
+        : base(config, id, name)
         {
-            SetFrame(frameCount);
+            SetFrame(waitFrame);
+            m_waitedFrame = -1;
         }
 
-        public void SetFrame(int frameCount)
+        public void SetFrame(int waitFrame)
         {
-            if(frameCount < 0)
-                maxFrame = 0;
+            if(waitFrame < 0)
+                this.waitFrame = 0;
             else
-                maxFrame = frameCount;
+                this.waitFrame = waitFrame;
         }
 
         public override InvokeResult Invoke()
         {
-            if(!base.bCheckContinuous())
-                m_executedFrame = -1;
+            ++m_waitedFrame;
 
-            ++m_executedFrame;
-
-            if(m_executedFrame > -1 && m_executedFrame < maxFrame)
-                return InvokeResult.RUNNING;
-            else if(m_executedFrame == maxFrame)
+            if(m_waitedFrame > -1 && m_waitedFrame < waitFrame)
+                return InvokeResult.Running;
+            else if(m_waitedFrame == waitFrame)
             {
-                m_executedFrame = -1;
-                return InvokeResult.SUCCESS;
+                m_waitedFrame = -1;
+                return InvokeResult.Success;
             }
             else
             {
-                m_executedFrame = -1;
-                return InvokeResult.FAIL;
+                m_waitedFrame = -1;
+                return InvokeResult.Failure;
             }
         }
     }

@@ -5,47 +5,50 @@ namespace UnchordMetroidvania
         public int tryCount { get; private set; }
         private int m_triedCount = 0;
 
-        internal RetryNodeBT(T data, int id, string name, int count)
-        : base(data, id, name)
+        internal RetryNodeBT(ConfigurationBT<T> config, int id, string name, int tryCount)
+        : base(config, id, name)
         {
-            SetTryCount(count);
-            m_triedCount = 0;
+            SetTryCount(tryCount);
         }
 
-        public void SetTryCount(int count)
+        public void SetTryCount(int tryCount)
         {
-            if(count < 0)
-                tryCount = 0;
+            if(tryCount < 0)
+                this.tryCount = 0;
             else
-                tryCount = count;
+                this.tryCount = tryCount;
         }
 
         public override InvokeResult Invoke()
         {
-            if(!base.bCheckContinuous())
-                m_triedCount = 0;
-
             InvokeResult iResult = child.Invoke();
 
-            if(iResult == InvokeResult.RUNNING)
+            if(iResult == InvokeResult.Running)
             {
-                return InvokeResult.RUNNING;
+                return InvokeResult.Running;
             }
-            else if(iResult == InvokeResult.SUCCESS)
+            else if(iResult == InvokeResult.Success)
             {
-                m_triedCount = 0;
-                return InvokeResult.SUCCESS;
+                ResetNode();
+                return InvokeResult.Success;
             }
             else if(m_triedCount < tryCount - 1)
             {
                 ++m_triedCount;
-                return InvokeResult.RUNNING;
+                return InvokeResult.Running;
             }
             else
             {
-                m_triedCount = 0;
-                return InvokeResult.FAIL;
+                ResetNode();
+                return InvokeResult.Failure;
             }
+        }
+
+        public override void ResetNode()
+        {
+            base.ResetNode();
+
+            m_triedCount = 0;
         }
     }
 }

@@ -2,73 +2,79 @@ namespace UnchordMetroidvania
 {
     public class ParallelNodeBT<T> : ControlNodeBT<T>
     {
-        public int maxFrame { get; private set; }
-        private int m_successCount = 0;
-        private int m_failCount = 0;
         private bool mb_executed;
+        private int m_successCount;
+        private int m_failureCount;
+        private int m_skipCount;
+        private bool[] m_bSkips;
 
-        internal ParallelNodeBT(T data, int id, string name, int initCapacity)
-        : base(data, id, name, initCapacity)
+        internal ParallelNodeBT(ConfigurationBT<T> config, int id, string name, int initCapacity)
+        : base(config, id, name, initCapacity)
         {
-            m_successCount = 0;
-            m_failCount = 0;
-            mb_executed = false;
+            m_bSkips = new bool[initCapacity];
         }
 
         public override InvokeResult Invoke()
         {
-            if(!base.bCheckContinuous())
-            {
-                m_successCount = 0;
-                m_failCount = 0;
-                mb_executed = false;
-            }
-
             bool bPrevExecuted = mb_executed;
             mb_executed = true;
             NodeBT<T> child;
 
             for(int i = 0; i < children.Length; ++i)
             {
-                child = children[i];
-                child.bSkipped &= bPrevExecuted;
-
-                if(child.bSkipped)
+                if(m_bSkips[i])
                     continue;
 
-                InvokeResult iResult = child.Invoke();
+                InvokeResult iResult = children[i].Invoke();
 
-                if(iResult == InvokeResult.SUCCESS)
-                {
-                    child.bSkipped = true;
-                    ++m_successCount;
-                }
-                else if(iResult == InvokeResult.FAIL)
-                {
-                    child.bSkipped = true;
-                    ++m_failCount;
-                }
+                if(iResult == InvokeResult.Success)
+                    m_OnSuccess(i);
+                else if(iResult == InvokeResult.Failure)
+                    m_OnFailure(i);
                 else
-                {
                     continue;
-                }
-
-                if(m_successCount + m_failCount == children.Length)
-                {
-                    InvokeResult finalResult = InvokeResult.SUCCESS;
-                    if(m_failCount > m_successCount)
-                        finalResult = InvokeResult.FAIL;
-
-                    m_successCount = 0;
-                    m_failCount = 0;
-                    mb_executed = false;
-
-                    return finalResult;
-                }
             }
 
-            // when all nodes are skipped.
-            return InvokeResult.RUNNING;
+            if(m_skipCount == children.Length)
+            {
+                int sCnt = m_successCount;
+                ResetNode();
+
+                if(sCnt == children.Length)
+                    return InvokeResult.Success;
+                else
+                    return InvokeResult.Failure;
+            }
+            else
+                return InvokeResult.Running;
         }
+
+        public override void ResetNode()
+        {
+            base.ResetNode();
+
+            mb_executed = false;
+            m_successCount = 0;
+            m_failureCount = 0;
+            m_skipCount = 0;
+
+            for(int i = 0; i < m_bSkips.Length; ++i)
+                m_bSkips[i] = false;
+        }
+
+        private void m_OnSuccess(int iChild)
+        {
+            m_bSkips[iChild] = true;
+            ++m_successCount;
+            ++m_skipCount;
+        }
+
+        private void m_OnFailure(int iChild)
+        {
+            m_bSkips[iChild] = true;
+            ++m_failureCount;
+            ++m_skipCount;
+        }
+
     }
 }

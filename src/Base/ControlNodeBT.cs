@@ -1,29 +1,16 @@
-using System.Collections.Generic;
+using System;
 
 namespace UnchordMetroidvania
 {
     public abstract class ControlNodeBT<T> : BranchNodeBT<T>
     {
-        public override int id
-        {
-            get
-            {
-                if(childIndex < 0 || childIndex >= children.Length)
-                    return -1;
-                return children[childIndex].id;
-            }
-        }
-
-        public override string name => base.name;
-
         protected NodeBT<T>[] children { get; private set; }
         protected int childIndex = 0;
 
-        protected ControlNodeBT(T data, int id, string name, int initCapacity)
-        : base(data, id, name)
+        protected ControlNodeBT(ConfigurationBT<T> config, int id, string name, int initCapacity)
+        : base(config, id, name)
         {
             children = new NodeBT<T>[initCapacity];
-            childIndex = 0;
         }
 
         public void Alloc(int index, NodeBT<T> node)
@@ -38,14 +25,14 @@ namespace UnchordMetroidvania
             return prevNode;
         }
 
-        public bool bEndOfNode()
+        public override void ResetNode()
         {
-            return childIndex >= children.Length;
-        }
+            base.ResetNode();
 
-        public void ResetNode()
-        {
             childIndex = 0;
+
+            for(int i = 0; i < children.Length; ++i)
+                children[i].ResetNode();
         }
     }
 }

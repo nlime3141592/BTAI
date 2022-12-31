@@ -4,8 +4,8 @@ namespace UnchordMetroidvania
 {
     public abstract class CompositeNodeBT<T> : ControlNodeBT<T>
     {
-        protected CompositeNodeBT(T data, int id, string name, int initCapacity)
-        : base(data, id, name, initCapacity)
+        protected CompositeNodeBT(ConfigurationBT<T> config, int id, string name, int initCapacity)
+        : base(config, id, name, initCapacity)
         {
             
         }

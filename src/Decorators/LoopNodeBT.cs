@@ -2,45 +2,48 @@ namespace UnchordMetroidvania
 {
     public class LoopNodeBT<T> : DecoratorNodeBT<T>
     {
-        public int maxFrame { get; private set; }
-        private int m_executedFrame;
+        public int loopFrame { get; private set; }
+        private int m_loopedFrame;
 
-        internal LoopNodeBT(T data, int id, string name, int frameCount)
-        : base(data, id, name)
+        internal LoopNodeBT(ConfigurationBT<T> config, int id, string name, int loopFrame)
+        : base(config, id, name)
         {
-            SetFrame(frameCount);
+            SetFrame(loopFrame);
         }
 
-        public void SetFrame(int frameCount)
+        public void SetFrame(int loopFrame)
         {
-            if(frameCount < 0)
-                maxFrame = 0;
+            if(loopFrame < 0)
+                this.loopFrame = 0;
             else
-                maxFrame = frameCount;
+                this.loopFrame = loopFrame;
         }
 
         public override InvokeResult Invoke()
         {
-            if(!base.bCheckContinuous())
-                m_executedFrame = -1;
-
-            ++m_executedFrame;
+            ++m_loopedFrame;
             InvokeResult iResult = child.Invoke();
 
-            if(iResult == InvokeResult.FAIL)
+            if(iResult == InvokeResult.Failure)
             {
-                m_executedFrame = -1;
-                return InvokeResult.FAIL;
-            }
-            else if(m_executedFrame < maxFrame - 1)
-            {
-                return InvokeResult.RUNNING;
+                ResetNode();
+                return InvokeResult.Failure;
             }
             else
             {
-                m_executedFrame = -1;
-                return InvokeResult.SUCCESS;
+                if(m_loopedFrame < loopFrame)
+                    return InvokeResult.Running;
+
+                ResetNode();
+                return InvokeResult.Success;
             }
+        }
+
+        public override void ResetNode()
+        {
+            base.ResetNode();
+
+            m_loopedFrame = 0;
         }
     }
 }

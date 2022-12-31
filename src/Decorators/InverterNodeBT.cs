@@ -4,8 +4,8 @@ namespace UnchordMetroidvania
 {
     public class InverterNodeBT<T> : DecoratorNodeBT<T>
     {
-        internal InverterNodeBT(T data, int id, string name)
-        : base(data, id, name)
+        internal InverterNodeBT(ConfigurationBT<T> config, int id, string name)
+        : base(config, id, name)
         {
 
         }
@@ -14,14 +14,14 @@ namespace UnchordMetroidvania
         {
             InvokeResult iResult = child.Invoke();
 
-            if(iResult == InvokeResult.SUCCESS)
-                return InvokeResult.FAIL;
-            else if(iResult == InvokeResult.RUNNING)
-                return InvokeResult.RUNNING;
-            else if(iResult == InvokeResult.FAIL)
-                return InvokeResult.SUCCESS;
+            if(iResult == InvokeResult.Success)
+                return InvokeResult.Failure;
+            else if(iResult == InvokeResult.Running)
+                return InvokeResult.Running;
+            else if(iResult == InvokeResult.Failure)
+                return InvokeResult.Success;
             else
-                throw new Exception("Argument Exception.");
+                throw new Exception("Unknown Exception.");
         }
     }
 }
