@@ -4,20 +4,10 @@ namespace UnchordMetroidvania
 {
     public abstract class PageNodeBT<T> : CompositeNodeBT<T>
     {
-        protected PageNodeBT(T data, int id, string name, int initCapacity)
-        : base(data, id, name, initCapacity)
+        protected PageNodeBT(ConfigurationBT<T> config, int id, string name, int initCapacity)
+        : base(config, id, name, initCapacity)
         {
 
-        }
-
-        public override InvokeResult Invoke()
-        {
-            children[childIndex].curFps = curFps;
-            children[childIndex].invokedFps = invokedFps;
-            children[childIndex].lastFps = lastFps;
-
-            Console.WriteLine("(cur:{0}, invoked:{1}, last:{2})", curFps, invokedFps, lastFps);
-            return InvokeResult.SUCCESS;
         }
 
         protected NodeBT<T> GetWrappedChildNode(int index)
@@ -25,15 +15,15 @@ namespace UnchordMetroidvania
             if(index < 0 || index >= children.Length)   
                 throw new ArgumentException("Invalid Argument.");
 
-            return new p_PageChildNode<T>(this, index);
+            return new p_PageChildNode(this, index);
         }
 
-        private sealed class p_PageChildNode<T> : NodeBT<T>
+        private sealed class p_PageChildNode : NodeBT<T>
         {
             private PageNodeBT<T> m_page;
             private int m_childIndex;
 
-            public p_PageChildNode(PageNodeBT<T> page, int index)
+            public p_PageChildNode(PageNodeBT<T> page, int childIndex)
             : base(page.config, page.id, page.name)
             {
                 m_page = page;
@@ -52,4 +42,4 @@ namespace UnchordMetroidvania
             }
         }
     }
-}
+} 

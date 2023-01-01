@@ -18,7 +18,6 @@ namespace UnchordMetroidvania
         {
             bool bPrevExecuted = mb_executed;
             mb_executed = true;
-            NodeBT<T> child;
 
             for(int i = 0; i < children.Length; ++i)
             {
