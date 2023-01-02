@@ -16,8 +16,6 @@ namespace UnchordMetroidvania
             this.config = config;
             this.id = id;
             this.name = name;
-
-            ResetNode();
         }
 
         public abstract InvokeResult Invoke();

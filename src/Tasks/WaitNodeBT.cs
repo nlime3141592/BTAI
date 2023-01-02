@@ -28,14 +28,20 @@ namespace UnchordMetroidvania
                 return InvokeResult.Running;
             else if(m_waitedFrame == waitFrame)
             {
-                m_waitedFrame = -1;
+                ResetNode();
                 return InvokeResult.Success;
             }
             else
             {
-                m_waitedFrame = -1;
+                ResetNode();
                 return InvokeResult.Failure;
             }
+        }
+
+        public override void ResetNode()
+        {
+            base.ResetNode();
+            m_waitedFrame = -1;
         }
     }
 }
