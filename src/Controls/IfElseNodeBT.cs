@@ -11,7 +11,7 @@ namespace UnchordMetroidvania
                 throw new ArgumentException("Invalid capacity.");
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             InvokeResult iResult = InvokeResult.Failure;
 
@@ -33,7 +33,10 @@ namespace UnchordMetroidvania
                 iResult = children[childIndex].Invoke();
 
             if(iResult != InvokeResult.Running)
+            {
                 ResetNode();
+                ResetChild();
+            }
 
             return iResult;
         }

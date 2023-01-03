@@ -14,7 +14,7 @@ namespace UnchordMetroidvania
             m_bSkips = new bool[initCapacity];
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             bool bPrevExecuted = mb_executed;
             mb_executed = true;
@@ -38,6 +38,7 @@ namespace UnchordMetroidvania
             {
                 int sCnt = m_successCount;
                 ResetNode();
+                ResetChild();
 
                 if(sCnt == children.Length)
                     return InvokeResult.Success;
@@ -74,6 +75,5 @@ namespace UnchordMetroidvania
             ++m_failureCount;
             ++m_skipCount;
         }
-
     }
 }

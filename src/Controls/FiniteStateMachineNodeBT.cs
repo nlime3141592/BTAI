@@ -10,7 +10,7 @@ namespace UnchordMetroidvania
 
         }
 
-        public sealed override InvokeResult Invoke()
+        protected sealed override InvokeResult p_Invoke()
         {
             int iPrevChild = childIndex;
             int iNextChild = GetNextChildIndex();

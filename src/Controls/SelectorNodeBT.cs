@@ -8,7 +8,7 @@ namespace UnchordMetroidvania
 
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             for(int i = childIndex; i < children.Length; ++i)
             {
@@ -22,11 +22,13 @@ namespace UnchordMetroidvania
                 else if(iResult == InvokeResult.Success)
                 {
                     ResetNode();
+                    ResetChild();
                     return InvokeResult.Success;
                 }
             }
 
             ResetNode();
+            ResetChild();
             return InvokeResult.Failure;
         }
     }

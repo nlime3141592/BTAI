@@ -10,11 +10,6 @@ namespace UnchordMetroidvania
 
         }
 
-        public override InvokeResult Invoke()
-        {
-            return base.Invoke();
-        }
-
         protected InvokeResult p_ShowMessage(string msg)
         {
             Console.WriteLine("{0}-{1}: {2}", beginFps, config.curFps, msg);

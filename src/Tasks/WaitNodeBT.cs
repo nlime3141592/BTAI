@@ -20,7 +20,7 @@ namespace UnchordMetroidvania
                 this.waitFrame = waitFrame;
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             ++m_waitedFrame;
 

@@ -8,9 +8,8 @@ namespace UnchordMetroidvania
 
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
-            base.Invoke();
             return p_ShowMessage(config.instance.msg_num1);
         }
     }

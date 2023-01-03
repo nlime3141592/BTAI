@@ -17,7 +17,7 @@ namespace UnchordMetroidvania
             m_key = key;
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             if(config.instance.inputKey == m_key)
                 return InvokeResult.Success;

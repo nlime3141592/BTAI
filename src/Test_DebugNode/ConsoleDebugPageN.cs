@@ -31,7 +31,7 @@ namespace UnchordMetroidvania
             root.Alloc(2, this.execution1);
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             return root.Invoke();
         }

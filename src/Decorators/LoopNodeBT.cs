@@ -19,7 +19,7 @@ namespace UnchordMetroidvania
                 this.loopFrame = loopFrame;
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             ++m_loopedFrame;
             InvokeResult iResult = child.Invoke();
@@ -27,6 +27,7 @@ namespace UnchordMetroidvania
             if(iResult == InvokeResult.Failure)
             {
                 ResetNode();
+                ResetChild();
                 return InvokeResult.Failure;
             }
             else
@@ -35,6 +36,7 @@ namespace UnchordMetroidvania
                     return InvokeResult.Running;
 
                 ResetNode();
+                ResetChild();
                 return InvokeResult.Success;
             }
         }

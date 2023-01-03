@@ -19,7 +19,7 @@ namespace UnchordMetroidvania
                 this.tryCount = tryCount;
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             InvokeResult iResult = child.Invoke();
 
@@ -30,6 +30,7 @@ namespace UnchordMetroidvania
             else if(iResult == InvokeResult.Success)
             {
                 ResetNode();
+                ResetChild();
                 return InvokeResult.Success;
             }
             else if(m_triedCount < tryCount - 1)
@@ -40,6 +41,7 @@ namespace UnchordMetroidvania
             else
             {
                 ResetNode();
+                ResetChild();
                 return InvokeResult.Failure;
             }
         }

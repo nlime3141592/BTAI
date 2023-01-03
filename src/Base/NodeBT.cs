@@ -8,6 +8,12 @@ namespace UnchordMetroidvania
         public int id { get; private set; }
         public string name { get; private set; }
 
+        public long beginFps { get; private set; } = -1;
+        public long lastFps { get; private set; } = -1;
+
+        public bool bActive = true;
+        public InvokeResult inactiveResult = InvokeResult.Failure;
+
         protected NodeBT(ConfigurationBT<T> config, int id, string name)
         {
             if(config == null)
@@ -18,11 +24,36 @@ namespace UnchordMetroidvania
             this.name = name;
         }
 
-        public abstract InvokeResult Invoke();
+        public InvokeResult Invoke()
+        {
+            if(!bActive)
+                return inactiveResult;
+
+            long curFps = config.curFps;
+            long dF = curFps - lastFps;
+
+            if(dF > 1) m_OnBeginNode(curFps);
+            if(dF > 0) lastFps = curFps;
+
+            return p_Invoke();
+        }
 
         public virtual void ResetNode()
         {
 
+        }
+
+        protected virtual void p_OnBeginNode()
+        {
+            
+        }
+
+        protected abstract InvokeResult p_Invoke();
+
+        private void m_OnBeginNode(long curFps)
+        {
+            beginFps = curFps;
+            p_OnBeginNode();
         }
     }
 }

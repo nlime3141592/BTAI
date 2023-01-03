@@ -10,7 +10,7 @@ namespace UnchordMetroidvania
 
         }
 
-        public override InvokeResult Invoke()
+        protected override InvokeResult p_Invoke()
         {
             InvokeResult iResult = child.Invoke();
 
