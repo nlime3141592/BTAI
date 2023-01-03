@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 
 namespace UnchordMetroidvania
 {
-    class Program
+    public class ConsoleTest
     {
-        static void Main()
+        public static NodeBT<ConsoleDebugModule> ConsoleMain(ConsoleDebugModule module)
         {
-            ConsoleDebugModule module = new ConsoleDebugModule();
             ConfigurationBT<ConsoleDebugModule> config = new ConfigurationBT<ConsoleDebugModule>(module);
 
             ConsoleKeyCondition kU = new ConsoleKeyCondition(config, -1, "Up", ConsoleKey.UpArrow);
@@ -30,13 +29,12 @@ namespace UnchordMetroidvania
                 fsm.Alloc(0, pA);
                 fsm.Alloc(1, pN);
 
-            Console.WriteLine("Program Starts.");
-            while(++(config.curFps) < 50)
-            {
-                module.ReadKey();
-                fsm.Invoke();
-            }
-            Console.WriteLine("Program Ends.");
+            ConsoleReadNode reader = new ConsoleReadNode(config, -1, "Read");
+            SequenceNodeBT<ConsoleDebugModule> seq = BehaviorTree.Sequence<ConsoleDebugModule>(config, -1, "seq", 2);
+            seq.Alloc(0, reader);
+            seq.Alloc(1, fsm);
+
+            return seq;
         }
     }
 }
