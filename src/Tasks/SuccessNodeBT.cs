@@ -1,9 +1,9 @@
 namespace UnchordMetroidvania
 {
-    public sealed class SuccessNodeBT<T> : TaskNodeBT<T>
+    public sealed class SuccessNodeBT<T> : ResultNodeBT<T>
     {
-        public SuccessNodeBT(ConfigurationBT<T> config, int id, string name)
-        : base(config, id, name)
+        public SuccessNodeBT(T instance)
+        : base(instance)
         {
 
         }

@@ -1,9 +1,9 @@
 namespace UnchordMetroidvania
 {
-    public sealed class FailureNodeBT<T> : TaskNodeBT<T>
+    public sealed class FailureNodeBT<T> : ResultNodeBT<T>
     {
-        public FailureNodeBT(ConfigurationBT<T> config, int id, string name)
-        : base(config, id, name)
+        public FailureNodeBT(T instance)
+        : base(instance)
         {
 
         }

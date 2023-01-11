@@ -1,9 +1,9 @@
 namespace UnchordMetroidvania
 {
-    public sealed class RunningNodeBT<T> : TaskNodeBT<T>
+    public sealed class RunningNodeBT<T> : ResultNodeBT<T>
     {
-        public RunningNodeBT(ConfigurationBT<T> config, int id, string name)
-        : base(config, id, name)
+        public RunningNodeBT(T instance)
+        : base(instance)
         {
 
         }
